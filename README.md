@@ -1,4 +1,4 @@
-# Bellabeat Smart Device Usage Analysis 📊
+# Bellabeat Smart Device Usage Analysis 📊 
 
 ## 📌 Project Overview
 This case study analyzes smart device usage data from Fitbit to identify trends in user activity, sleep, and calorie expenditure.  
