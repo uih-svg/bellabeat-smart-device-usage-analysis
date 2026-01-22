@@ -1,0 +1,161 @@
+---
+title: 'Bellabeat Case Study: Smart Device Usage Analysis'
+author: "suhail"
+date: "2026-01-21"
+output: html_document
+---
+
+
+will produce a repo with the following deliverables:                            [DATE :- 18-01-2026]
+
+1.	A clear summary of the business task 
+2.	 A description of all data sources used
+3.	 Documentation of any cleaning or manipulation of data 
+4.	 A summary of your analysis 
+5.	 Supporting visualizations and key findings
+6.	 Your top high-level content recommendations based on your analysis
+
+### ASK PHASE 
+#### Business Task :- 
+“ Analyze smart-device usage patterns from available fitness tracker data to identify trends and insights that can guide Bellabeat’s product development and marketing strategy for non-smart wellness products. “
+                                              
+#### Stake holders :- 
+  1. UrškaSršen : Bellabeat’s cofounder and Chief Creative Office                  2. SandoMur:  Mathematician and Bellabeat’s cofounder
+  
+### PREPARE
+#### DATA IMPORTED FROM :-
+1.	Public data_set :-  fitbit fitness tracker data                     🔗(https://www.kaggle.com/datasets/arashnic/fitbit)
+2. Combined daily_activity and sleep-day data for good understanding 
+
+#### importing data 
+```{r}
+fitbase_1 <- read.csv("~/coursera case study project/case stdy 2 _f/mturkfitbit_export_3.12.16-4.11.16/Fitabase Data 3.12.16-4.11.16/dailyActivity_merged.csv")
+
+fitbase_2 <- read.csv("~/coursera case study project/case stdy 2 _f/mturkfitbit_export_4.12.16-5.12.16/Fitabase Data 4.12.16-5.12.16/sleepDay_merged.csv")
+
+colnames(fitbase_1) 
+
+```
+####  arranging data 
+
+```{r}
+library(dplyr)
+library(lubridate)
+
+fitbase_1 <- fitbase_1 %>%
+  mutate(ActivityDate = as.Date(ActivityDate, format = "%m/%d/%Y"))
+
+fitbase_2 <- fitbase_2 %>%
+  mutate(SleepDay = as.Date(SleepDay, format = "%m/%d/%Y %I:%M:%S %p")) %>%
+  rename(ActivityDate = SleepDay)
+
+fitbase <- left_join(fitbase_1, fitbase_2, by = c("Id", "ActivityDate"))
+
+glimpse(fitbase)
+```
+	
+	Glimps in r programming  👇
+```{r}
+glimpse(fitbase)
+```
+
+   
+
+### PREPARE
+Date : 19-1-26`
+▼	 Tools Used `
+1.	My SQL
+2.	R (Programming)
+3.	Tableau
+4.	Excel 
+
+      ▼Dividing process into two steps  :- 
+      
+                                                                🔹 Part 1: Activity-based behavior (ALL USERS)
+                                                                •	Steps
+                                                                •	Calories
+                                                                •	Active minutes
+                                                                •	Sedentary time                                                      🔹  Part 2: Sleep-based behavior (ONLY USERS WITH SLEEP DATA)
+                                                                •	Filter users/days where sleep is available
+                                                                •	Explicitly mention this limitation
+                                                                 19-01-2026 
+#### sorting fitbase using arrange()function
+
+sorted the tables
+                                                                
+#### duplicate checks      
+```{r}
+library(dplyr)
+dup_check <- fitbase %>%  count(Id,ActivityDate) %>% filter(n >1)
+dup_check
+
+```
+####  Data Validation → checking data types 
+```{r}
+str(fitbase)
+
+```
+ 21-01-2026 [ Analyzis using R ]
+```{r}
+library(dplyr)
+user_summary <- fitbase %>% group_by(Id) %>% 
+  summarise(avg_steps = mean(TotalSteps ,na.rm = TRUE),
+            avg_calories = mean(Calories , na.rm = TRUE),
+            avg_sedimentary_minutes = mean(SedentaryMinutes , na.rm = TRUE),
+            avg_active_minutes = mean(VeryActiveMinutes +FairlyActiveMinutes +LightlyActiveMinutes))
+
+str(user_summary)
+View(user_summary)
+```
+###  Visualization
+```{r}
+library(ggplot2)
+
+```
+A. Average steps per user
+```{r}
+
+ggplot(user_summary,
+       aes(x = factor(Id), y = avg_steps )) +
+  geom_col() +
+  labs(
+    title = "Average Daily Steps per User",
+    x = "User ID",
+    y = "Average Steps"
+  ) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
+  B. Sedimentary time vs steps 
+```{r}
+ggplot(user_summary, aes(x = avg_steps, y = avg_sedimentary_minutes)) +
+  geom_point() +
+  labs(
+    title = "Sedimentary Time vs Average Steps",
+    x = "Average Steps",
+    y = "Average Sedentary Minutes"
+  )
+```
+C. Calories Vs Activity
+```{r}
+ggplot(user_summary, aes(x = avg_active_minutes, y = avg_calories)) +
+  geom_point() +
+  labs(
+    title = "Active Minutes vs Calories Burned",
+    x = "Average Active Minutes",
+    y = "Average Calories"
+  )
+```
+
+### 🚀 BUSINESS RECOMMENDATIONS
+
+✅ Recommendation 1: Habit-building over performance
+Since most users show moderate activity with high sedentary time, Bellabeat should emphasize daily habit formation rather than intense fitness goals.
+
+✅ Recommendation 2: Non-smart product positioning
+  Non-smart wellness products (journals, hydration reminders, mindfulness tools) should target sedentary users, positioning wellness as achievable without technology overload.
+  
+✅ Recommendation 3: Marketing messaging
+Campaigns should focus on “small daily progress”, aligning with users who are not highly active but consistently engaged.
+
+✅ Recommendation 4: Sleep features (future opportunity)
+Given the limited sleep data, Bellabeat can differentiate by encouraging manual sleep reflection in non-smart products to complement wearable insights.                                         
