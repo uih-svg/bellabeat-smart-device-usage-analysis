@@ -1,35 +1,23 @@
-# Bellabeat Smart Device Usage Analysis 📊 
+# Bellabeat Smart Device Usage Analysis
 
 ## 📌 Project Overview
-This case study analyzes smart device usage data from Fitbit to identify trends in user activity, sleep, and calorie expenditure.  
-The insights aim to support Bellabeat’s marketing and product strategy decisions.
+This project analyzes smart device usage data to identify patterns in daily activity, steps, and engagement.
 
-## 🧰 Tools Used
+## 📊 Tools Used
 - R
 - tidyverse
 - ggplot2
-- Kaggle Notebook
 
-## 📂 Dataset
-Public Fitbit Fitness Tracker Dataset (via Kaggle)
-
-## 🔍 Key Analysis
-- Average daily steps per user
-- Relationship between steps, calories, and sedentary time
-- User behavior patterns across activity levels
+## 🔍 Key Analysis Performed
+- Daily and weekly activity trends
+- Comparison between different usage patterns
+- Aggregations to identify high and low activity periods
 
 ## 💡 Key Insights
-- Users with higher steps tend to burn more calories
-- Sedentary time decreases as activity increases
-- Consistent activity patterns suggest opportunities for habit-based wellness nudges
+- Users with consistent daily activity show higher average steps
+- Certain days of the week show increased engagement
+- Opportunities for targeted wellness recommendations
 
-## 📈 Deliverables
-- R Markdown report (.Rmd)
+## 📁 Files
+- R Markdown (.Rmd)
 - Rendered HTML report
-- Visualizations and insights
-
-## 🔗 Kaggle Notebook
-( paste your Kaggle notebook link here )
-
-## 👤 Author
-Suhail Ahmed
